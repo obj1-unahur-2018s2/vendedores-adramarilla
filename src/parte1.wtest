@@ -1,0 +1,80 @@
+import vehiculos.*
+import remisera.*
+import viajes.*
+
+describe "Test Parte 1" {
+	
+		const cachito = new Corsa()
+		const remi1_corsa2 = new Corsa()
+		const remi1_corsa3 = new Corsa()
+		const remi1_standard = new Standard()
+		const remi1_distinto = new AutosDistintos()
+		const remisera1 = new Remisera()
+		const remisera2 = new Remisera()
+		const remi2_standard1 = new Standard()
+		const remi2_standard2 = new Standard()
+		const remi2_standard3 = new Standard()
+		const viaje = new Viajes()
+		
+	fixture {
+		cachito.colorCorsa("rojo")
+		remi1_corsa2.colorCorsa("negro")
+		remi1_corsa3.colorCorsa("verde")
+		remi1_standard.tieneTanqueAdicional()
+		remi1_distinto.capacidad(5)
+		remi1_distinto.velocidadMaxima(160)
+		remi1_distinto.peso(1200)
+		remi1_distinto.color("beige")
+	
+		
+		remisera1.agregarAFlota(cachito)
+		remisera1.agregarAFlota(remi1_corsa2)
+		remisera1.agregarAFlota(remi1_corsa3)
+		remisera1.agregarAFlota(remi1_standard)
+		remisera1.agregarAFlota(remi1_distinto)
+		
+		remisera2.agregarAFlota(cachito)
+		remisera2.agregarAFlota(remi2_standard1)
+		remisera2.agregarAFlota(remi2_standard2)
+		remisera2.agregarAFlota(remi2_standard3)
+		remisera2.agregarAFlota(trafic)
+		
+		trafic.interiorComodo()
+		trafic.motorPulenta()
+		remi2_standard1.tieneTanqueAdicional()
+		
+		}
+			
+	test "Peso de flota remi1" {
+
+		assert.equals(6450 ,remisera1.pesoTotalFlota())
+		assert.equals("beige" ,remisera1.colorDelAutoMasRapido())
+		assert.equals(20 ,remisera1.capacidadTotalYendoA(100))
+		assert.that(remisera1.esRecomendable())
+		assert.equals(1 ,remisera1.cantidadDeAutosDeColor("beige"))
+		assert.equals("rojo" ,cachito.color())
+		assert.that(remisera1.hayAutosDeCapacidadExacta(5))
+		}
+		
+		
+		test "Peso de flota remi2" {
+		
+		assert.equals(10550 ,remisera2.pesoTotalFlota())
+		assert.equals("rojo" ,remisera2.colorDelAutoMasRapido())
+		assert.equals(4 ,remisera2.capacidadTotalYendoA(140))
+		assert.that(remisera1.esRecomendable())
+		assert.equals(1 ,remisera1.cantidadDeAutosDeColor("beige"))
+		assert.equals("rojo" ,cachito.color())
+		assert.that(remisera1.hayAutosDeCapacidadExacta(5))
+		}
+		
+		test "viajes" {
+			viaje.agregarViaje(remisera1)
+			viaje.coloresIncompatibles("rojo")
+			viaje.kilometros(250)
+			viaje.tiempoMaxEnHoras(2)
+			viaje.cantidadPasajeros(4)
+			
+			assert.that(viaje.PuedeHacerViaje(trafic))
+		}
+		}
